@@ -22,7 +22,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import webpage_parser
+import webpage_parser  # noqa E402
 
 # -- General configuration ---------------------------------------------
 
@@ -32,7 +32,23 @@ import webpage_parser
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+]
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3.6', None),
+    'six': ('https://pythonhosted.org/six/', None),
+    'tornado': ('http://www.tornadoweb.org/en/stable/', None),
+    'sqlalchemy': ('https://docs.sqlalchemy.org/en/latest/', None),
+    'autobahn': ('https://autobahn.readthedocs.io/en/latest/', None)
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -84,7 +100,13 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'classic'
+html_theme_options = {
+    'stickysidebar': False,
+    'collapsiblesidebar': True,
+    'externalrefs': True,
+    # 'body_min_width': '100%',
+}
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the

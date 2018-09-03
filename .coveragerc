@@ -1,0 +1,28 @@
+# .coveragerc to control coverage.py
+[run]
+branch = False
+omit =
+    /*/config/*
+    /*/templates/*
+    /*/servers/*
+    /*/__init__.py
+    compose/*
+    docs/*
+    envs/*
+    logs/*
+    .tox/*
+	migration/
+    tests/*
+    setup.py
+    __version__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+
+[html]
+directory = htmlcov
