@@ -29,11 +29,18 @@ BROWSER := python -c "$$BROWSER_PYSCRIPT"
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+init:  ## setup environment
+	pipenv install --dev
+
+clean: clean-npm clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+clean-npm: ## cleans npm module
+	rm -fr node_module
 
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
+	rm -fr docs/_build
 	rm -fr .eggs/
 	find . -name '*.egg-info' -exec rm -fr {} +
 	find . -name '*.egg' -exec rm -f {} +
@@ -49,12 +56,21 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
+	rm -f result.xml
+	rm -f coverage.xml
 
 lint: ## check style with flake8
 	flake8 webpage_parser tests
 
 test: ## run tests quickly with the default Python
-	py.test
+	py.test \
+	  --cov-config .coveragerc \
+	  --junitxml=result.xml \
+	  --cov=. \
+	  --cov-report term \
+	  --cov-report xml \
+	  --cov-report term-missing
+
 
 test-all: ## run tests on every Python version with tox
 	tox
@@ -62,8 +78,6 @@ test-all: ## run tests on every Python version with tox
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source webpage_parser -m pytest
 	coverage report -m
-	coverage html
-	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/webpage_parser.rst
@@ -71,18 +85,37 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	sphinx-apidoc -o docs/ webpage_parser
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	$(BROWSER) docs/_build/html/index.html
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-release: dist ## package and upload a release
-	twine upload dist/*
-
-dist: clean ## builds source and wheel package
+dist: clean  ## builds the eggs and wheel.
 	python setup.py sdist
+	python setup.py bdist_egg
 	python setup.py bdist_wheel
+
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+version:  ## returns current version.
+	@python setup.py --version
+
+history:  ## generate HISTORY.rst
+	pipenv run gitchangelog > HISTORY.rst
+
+bumpmajor: ## increments major version release
+	bumpversion major --verbose
+
+bumpminor: ## increments minor version release
+	bumpversion minor --verbose
+
+bumppatch: ## increments patch version release
+	bumpversion patch --verbose
+
+tag:  ## Create tags
+	git tag -a $$(python setup.py --version) -m $$(python setup.py --version)
+
+release: dist  ## releases the product.
+	twine upload --config-file /twine/.pypirc dist/*

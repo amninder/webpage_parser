@@ -9,3 +9,4 @@ exclude =
   */__init__.py
 max-line-length = 180
 max-complexity = 10
+ignore = C901

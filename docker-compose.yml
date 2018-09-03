@@ -1,0 +1,29 @@
+version: '3.1'
+
+networks:
+  urlnet:
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: compose/nginx/Dockerfile
+    ports:
+      - '8081:80'
+    volumes:
+      - ./static:/usr/share/nginx/html
+    env_file:
+      - ./.env
+    depends_on:
+      - crossbar
+
+  crossbar:
+    container_name: URL-SHORTNER-CROSSBAR
+    image: crossbario/crossbar:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - "urlnet"
+    volumes:
+      - ${PWD}/compose/node:/node
+    tty: true

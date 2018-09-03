@@ -1,5 +1,5 @@
 Welcome to webpage_parser's documentation!
-======================================
+==========================================
 
 .. toctree::
    :maxdepth: 2
