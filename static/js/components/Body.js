@@ -1,5 +1,5 @@
 import React from "react";
-import UrlList from "./UrlList";
+import ReactJson from "react-json-view";
 
 
 export default class Body extends React.Component{
@@ -13,7 +13,8 @@ export default class Body extends React.Component{
             message: '',
             website: '',
             slug: '',
-            contents: []
+            contents: [],
+            data: [],
         }
     }
 
@@ -24,32 +25,40 @@ export default class Body extends React.Component{
 
     handleClick(){
         this.props.connection.session.call(
-            'com.example.saveurl',
+            'com.example.requestcount',
             [this.state.input_text]
         ).then((res) => {
             if (res.error == true){
-                this.setState({error: 'Error: True'});
+                this.setState({error: 'True'});
             } else{
-                this.setState({error: 'Error: False'});
-                var short_url = 'http://short-url.com/' + res.data.slug;
-                this.setState({slug: short_url});
+                this.setState({error: 'False'});
             }
             this.setState({message: res.message});
-            this.setState({website: res.data.website});
+            this.setState({data: res.data})
         });
     }
 
     render() {
+        const styles = {
+            fontFamily: 'sans-serif',
+            textAlign: 'center',
+        };
         return (
             <div>
                 <div>
-                    <input onChange={this.handleChange.bind(this)}/>
-                    <button onClick={this.handleClick.bind(this)}>Save</button>
-                    <div>
-                        <p>{this.state.error} </p>
+                    <div style={styles}>
+                        <h2>Webpage Parser</h2>
+                        <input
+                            onChange={this.handleChange.bind(this)}
+                            style={{width: '470px'}}
+                        />
+                        <button onClick={this.handleClick.bind(this)}>Save</button>
+                    </div>
+                    <div style={styles}>
+                        <p>Error: {this.state.error} </p>
                         <p>Message: {this.state.message} </p>
                     </div>
-                    <UrlList contents={this.props.contents}/>
+                    <ReactJson src={this.state.data} theme='hopscotch' />
                 </div>
             </div>
         )

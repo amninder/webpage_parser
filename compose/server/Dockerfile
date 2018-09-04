@@ -21,6 +21,6 @@ COPY ./compose/supervisord.conf /etc/supervisor/supervisord.conf
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /etc/supervisor/supervisord.conf
 
-RUN mkdir /var/log/urlshortner
+RUN mkdir /var/log/parser
 
 ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
