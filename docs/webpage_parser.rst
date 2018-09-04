@@ -12,10 +12,10 @@ Subpackages
 Submodules
 ----------
 
-webpage\_parser.webpage\_parser module
---------------------------------------
+webpage\_parser.application module
+----------------------------------
 
-.. automodule:: webpage_parser.webpage_parser
+.. automodule:: webpage_parser.application
     :members:
     :undoc-members:
     :show-inheritance:
