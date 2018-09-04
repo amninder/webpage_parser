@@ -1,0 +1,12 @@
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    sha: v0.9.2
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-docstring-first
+    -   id: check-json
+    -   id: check-added-large-files
+        args:
+          - --maxkb=1280
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: flake8
