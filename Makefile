@@ -32,7 +32,10 @@ help:
 init:  ## setup environment
 	pipenv install --dev
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-npm clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+
+clean-npm: ## cleans npm module
+	rm -fr node_module
 
 clean-build: ## remove build artifacts
 	rm -fr build/

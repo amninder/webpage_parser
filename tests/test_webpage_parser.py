@@ -1,25 +1,31 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `webpage_parser` package."""
-
-import pytest
-
-
-from webpage_parser import webpage_parser
+from tests.base import BaseTest
+from webpage_parser.webpage_parser import WebpageParserSession
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
+class TestWebpageParserSession(BaseTest):
 
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+    def setUp(self):
+        super(TestWebpageParserSession, self).setUp()
+        self.wps = WebpageParserSession()
 
+    def test_request_count_no_url(self):
+        """Test case to return error when no url is passed"""
+        actual_result = self.wps.request_count(url=None)
+        expected_result = {
+            'error': True,
+            'message': 'No url recieved.',
+            'data': {}
+        }
+        self.assertDictEqual(expected_result, actual_result)
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+    def test_request_count_invalid_url(self):
+        """Test case to return error when no url is passed"""
+        actual_result = self.wps.request_count(url='abc')
+        expected_result = {
+            'error': True,
+            'message': 'abc is not a valid url',
+            'data': {}
+        }
+        self.assertDictEqual(expected_result, actual_result)

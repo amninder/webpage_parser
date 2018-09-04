@@ -1,0 +1,48 @@
+version: '3.1'
+
+networks:
+  parser:
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: compose/nginx/Dockerfile
+    container_name: WEBPAGE-PARSER-WEB
+    ports:
+      - '8081:80'
+    volumes:
+      - ./static:/usr/share/nginx/html
+    env_file:
+      - ./.env
+    depends_on:
+      - crossbar
+      - server
+
+  server:
+    build:
+      context: .
+      dockerfile: compose/server/Dockerfile
+    container_name: WEBPAGE-PARSER-SERVER
+    ports:
+      - "8000:8000"
+    networks:
+      - "parser"
+    command:
+      - supervisord
+    volumes:
+      - ./logs:/var/log/parser
+    env_file:
+      - ./.env
+    tty: true
+
+  crossbar:
+    container_name: WEBPAGE-PARSER-CROSSBAR
+    image: crossbario/crossbar:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - "parser"
+    volumes:
+      - ${PWD}/compose/node:/node
+    tty: true

@@ -12,7 +12,7 @@ def guard(func, against=None):
 
     Returns (function): Executes method
 
-    Raises: Raises exceptions provided in :meth:`~url_shortner.utils.guard.guard` if caught.
+    Raises: Raises exceptions provided in :meth:`~webpage_parser.utils.guard.guard` if caught.
     """
 
     try:
