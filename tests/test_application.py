@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tests.base import BaseTest
-from webpage_parser.webpage_parser import WebpageParserSession
+from webpage_parser.application import WebpageParserSession
 
 
 class TestWebpageParserSession(BaseTest):

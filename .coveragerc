@@ -15,6 +15,7 @@ omit =
     tests/*
     setup.py
     __version__.py
+    run.py
 
 [report]
 exclude_lines =

@@ -15,6 +15,7 @@ export default class Body extends React.Component{
             slug: '',
             contents: [],
             data: [],
+            broadcasted_item: [],
         }
     }
 
@@ -43,6 +44,41 @@ export default class Body extends React.Component{
             fontFamily: 'sans-serif',
             textAlign: 'center',
         };
+        const input_styles = {
+            width: '100%',
+            padding: '12px 20px',
+            margin: '8px 0',
+            display: 'inline-block',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxSizing: 'border-box',
+            textAlign: 'center',
+            fontSize: '30px',
+            color: '#4CAF50',
+        };
+        const button_styles = {
+            backgroundColor: '#4CAF50',
+            border: 'none',
+            color: 'white',
+            padding: '20px',
+            textAlign: 'center',
+            textDecoration: 'none',
+            display: 'inline-block',
+            fontSize: '16px',
+            margin: '4px 2px',
+            cursor: 'pointer',
+            borderRadius: '8px',
+        };
+        const result_div = {
+            width: '50%',
+            height: '100%',
+            float: 'left',
+        };
+        const broadcast_div = {
+            width: '50%',
+            height: '100%',
+            float: 'right',
+        };
         return (
             <div>
                 <div>
@@ -50,15 +86,25 @@ export default class Body extends React.Component{
                         <h2>Webpage Parser</h2>
                         <input
                             onChange={this.handleChange.bind(this)}
-                            style={{width: '470px'}}
+                            style={input_styles}
                         />
-                        <button onClick={this.handleClick.bind(this)}>Save</button>
+                        <button
+                            onClick={this.handleClick.bind(this)}
+                            style={button_styles}
+                        >Generate</button>
                     </div>
                     <div style={styles}>
                         <p>Error: {this.state.error} </p>
                         <p>Message: {this.state.message} </p>
                     </div>
-                    <ReactJson src={this.state.data} theme='hopscotch' />
+                    <div style={result_div}>
+                        <h2>Result</h2>
+                        <ReactJson src={this.state.data} />
+                    </div>
+                    <div style={broadcast_div}>
+                        <h2>Broadcasted Message</h2>
+                        <ReactJson src={this.props.broadcasted_item} />
+                    </div>
                 </div>
             </div>
         )
