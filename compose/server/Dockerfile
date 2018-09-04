@@ -15,8 +15,8 @@ ENV PYTHONPATH /app
 RUN pip3 install pipenv
 RUN pipenv install --dev --system --deploy
 
-COPY ./compose/entrypoint.sh /app/entrypoint.sh
-COPY ./compose/supervisord.conf /etc/supervisor/supervisord.conf
+COPY ./compose/server/entrypoint.sh /app/entrypoint.sh
+COPY ./compose/server/supervisord.conf /etc/supervisor/supervisord.conf
 
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /etc/supervisor/supervisord.conf

@@ -6,8 +6,8 @@ import Body from "./Body"
 
 var autobahn = require('autobahn');
 
-
 export default class Layout extends React.Component{
+
     constructor(){
         super();
 
@@ -23,17 +23,19 @@ export default class Layout extends React.Component{
             session: null,
             ws_status: 'Disconnected',
             contents: null,
-            broadcasted_item: '',
+            broadcasted_item: [],
         }
 
 
         connection.onopen = (session) => {
-            this.setState({ws_status: 'Connected', session: session})
+            this.setState({ws_status: 'Connected', session: session});
 
-            session.subscribe('com.example.broadcastsave', (args) => {
+            session.subscribe('com.example.broadcastcount', (args) => {
                 console.log('Broadcast Event: ', args[0]);
+                this.setState({broadcasted_item: args[0]});
             });
         }
+
         connection.onclose = this.onCloseEvent.bind(this)
         connection.open();
     }
@@ -48,7 +50,9 @@ export default class Layout extends React.Component{
             <div>
                 <Body
                     connection={this.state.connection}
-                    contents={this.state.contents}/>
+                    contents={this.state.contents}
+                    broadcasted_item={this.state.broadcasted_item}
+                />
                 <Footer title={this.state.ws_status} />
             </div>
         );

@@ -7,6 +7,7 @@ from autobahn import wamp
 from autobahn.twisted.wamp import ApplicationSession
 
 from webpage_parser.config.constants import (
+    BROADCAST_COUNT_EVENT,
     REQUEST_COUNT_EVENT,
 )
 from webpage_parser.config.regex_config import regex
@@ -69,6 +70,8 @@ class WebpageParserSession(ApplicationSession):
                 'message': 'Webpage parsed',
                 'data': data
             })
+            self.publish(BROADCAST_COUNT_EVENT, result)
+            logging.info('Broadcasted {}'.format(result))
         except Exception as e:
             result.update({
                 'error': True,

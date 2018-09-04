@@ -4,7 +4,7 @@ from os import environ
 
 from twisted.python import log
 
-from webpage_parser.webpage_parser import WebpageParserSession
+from webpage_parser.application import WebpageParserSession
 from autobahn.twisted.wamp import ApplicationRunner
 
 
